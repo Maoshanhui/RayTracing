@@ -69,10 +69,10 @@ int main()
 	vec3 origin(0.0 , 0.0, 0.0);
 
 	hittable *list[4];
-	list[0] = new sphere(vec3(0, 0, -1), 0.5, new lambertian(vec3(0.8, 0.3, 0.3)));
+	list[0] = new sphere(vec3(0, 0, -1), 0.5, new lambertian(vec3(0.1, 0.2, 0.5)));
 	list[1] = new sphere(vec3(0, -100.5, -1), 100, new lambertian(vec3(0.8, 0.8, 0.0)));
 	list[2] = new sphere(vec3(1,0,-1), 0.5, new metal(vec3(0.8, 0.6, 0.2), 0.3));
-	list[3] = new sphere(vec3(-1, 0, -1), 0.5, new metal(vec3(0.8, 0.8, 0.8), 1.0));
+	list[3] = new sphere(vec3(-1, 0, -1), 0.5, new dielectric(1.5));
     hittable *world =(hittable*) new hittable_list(list,4);
 	camera cam;
 
@@ -85,7 +85,7 @@ int main()
 				float u = float(i + random_double()) / float(nx);
 				float v = float(j + random_double()) / float(ny);
 				ray r = cam.get_ray(u, v);
-				col += color(r, world, 48);
+				col += color(r, world, 0);
 			}
 			col /= float(ns);
 			col = vec3( sqrt(col[0]), sqrt(col[1]), sqrt(col[2]));
