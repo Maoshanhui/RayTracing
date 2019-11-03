@@ -68,14 +68,21 @@ int main()
 	vec3 vertical(0, 2.0, 0.0);
 	vec3 origin(0.0 , 0.0, 0.0);
 
-	hittable *list[5];
-	list[0] = new sphere(vec3(0, 0, -1), 0.5, new lambertian(vec3(0.1, 0.2, 0.5)));
-	list[1] = new sphere(vec3(0, -100.5, -1), 100, new lambertian(vec3(0.8, 0.8, 0.0)));
-	list[2] = new sphere(vec3(1,0,-1), 0.5, new metal(vec3(0.8, 0.6, 0.2), 0.3));
-	list[3] = new sphere(vec3(-1, 0, -1), 0.5, new dielectric(1.5));
-	list[4] = new sphere(vec3(-1, 0, -1), -0.45, new dielectric(1.5));
-    hittable *world =(hittable*) new hittable_list(list,5);
-	camera cam;
+	// hittable *list[5];
+	// list[0] = new sphere(vec3(0, 0, -1), 0.5, new lambertian(vec3(0.1, 0.2, 0.5)));
+	// list[1] = new sphere(vec3(0, -100.5, -1), 100, new lambertian(vec3(0.8, 0.8, 0.0)));
+	// list[2] = new sphere(vec3(1,0,-1), 0.5, new metal(vec3(0.8, 0.6, 0.2), 0.3));
+	// list[3] = new sphere(vec3(-1, 0, -1), 0.5, new dielectric(1.5));
+	// list[4] = new sphere(vec3(-1, 0, -1), -0.45, new dielectric(1.5));
+    // hittable *world =(hittable*) new hittable_list(list,5);
+	// camera cam;
+
+	hittable *list[2];
+	float R = cos(M_PI / 4);
+	list[0] = new sphere(vec3(-R, 0, -1), R, new lambertian(vec3(0, 0, 1)));
+	list[1] = new sphere(vec3(R, 0, -1), R, new lambertian(vec3(1, 0, 0)));
+	hittable *world = (hittable*) new hittable_list(list, 2);
+	camera cam(90, float(nx)/float(ny));
 
 	for (int j = ny - 1; j >= 0; j--)
 	{
