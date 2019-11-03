@@ -75,7 +75,14 @@ int main()
 	list[3] = new sphere(vec3(-1, 0, -1), 0.5, new dielectric(1.5));
 	list[4] = new sphere(vec3(-1, 0, -1), -0.45, new dielectric(1.5));
     hittable *world =(hittable*) new hittable_list(list,5);
-	camera cam(vec3(-2, 2, 1) * 0.25, vec3(0, 0, -1), vec3(0, 1, 0), 90, float(nx)/float(ny));
+
+	vec3 lookfrom(3,3,2);
+	vec3 lookat(0,0,-1);
+	float dist_to_focus = (lookfrom-lookat).length();
+	float aperture = 2.0;
+
+	camera cam(lookfrom, lookat, vec3(0,1,0), 20,
+            float(nx)/float(ny), aperture, dist_to_focus);
 
 	// hittable *list[2];
 	// float R = cos(M_PI / 4);
