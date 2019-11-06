@@ -11,6 +11,7 @@
 #include "camera.h"
 #include "random.h"
 #include "material.h"
+#include "texture.h"
 
 using namespace std;
 
@@ -56,9 +57,13 @@ vec3 color(const ray& r, hittable *world, int depth)
 }
 
 hittable *random_scene() {
-    int n = 50000;
+    int n = 500;
     hittable **list = new hittable*[n+1];
-    list[0] =  new sphere(vec3(0,-1000,0), 1000, new lambertian(vec3(0.5, 0.5, 0.5)));
+	texture* checker = new checker_texture(
+		new constant_texture(vec3(0.2, 0.3, 0.1)), 
+		new constant_texture(vec3(0.9, 0.9, 0.9))
+	);
+    list[0] =  new sphere(vec3(0,-1000,0), 1000, new lambertian(checker));
     int i = 1;
     for (int a = -10; a < 10; a++) {
         for (int b = -10; b < 10; b++) {
@@ -70,9 +75,10 @@ hittable *random_scene() {
 						center, 
 						center + vec3(0, 0.5*random_double(), 0), 
 						0.0, 1.0, 0.2,
-                        new lambertian(vec3(random_double()*random_double(),
+                        new lambertian(new constant_texture(vec3(
+											random_double()*random_double(),
                                             random_double()*random_double(),
-                                            random_double()*random_double())
+                                            random_double()*random_double()))
                         )
                     );
                 }
@@ -91,10 +97,22 @@ hittable *random_scene() {
     }
 
     list[i++] = new sphere(vec3(0, 1, 0), 1.0, new dielectric(1.5));
-    list[i++] = new sphere(vec3(-4, 1, 0), 1.0, new lambertian(vec3(0.4, 0.2, 0.1)));
+    list[i++] = new sphere(vec3(-4, 1, 0), 1.0, new lambertian(new constant_texture(vec3(0.4, 0.2, 0.1))));
     list[i++] = new sphere(vec3(4, 1, 0), 1.0, new metal(vec3(0.7, 0.6, 0.5), 0.0));
 
     return (hittable*) new hittable_list(list,i);
+}
+
+hittable* two_spheres() {
+	texture *checker = new checker_texture(
+		new constant_texture(vec3(0.2, 0.3, 0.1)), 
+		new constant_texture(vec3(0.9, 0.9, 0.9))
+	);
+	int n = 50;
+	hittable **list = new hittable*[n+1];
+	list[0] = new sphere(vec3(0, -10, 0), 10, new lambertian(checker));
+	list[1] = new sphere(vec3(0, 10, 0), 10, new lambertian(checker));
+	return (hittable*) new hittable_list(list, 2);
 }
 
 int main()
@@ -102,8 +120,8 @@ int main()
 	ofstream outfile;
 	outfile.open("./outputImage.ppm", ios::out);
 
-	int nx = 800;
-	int ny = 400;
+	int nx = 400;
+	int ny = 200;
 	int ns = 100;
 	outfile << "P3\n" << nx << " " << ny << "\n255\n";
 	vec3 lower_left_corner(-2.0, -1.0, -1.0);
@@ -134,7 +152,10 @@ int main()
 	// hittable *world = (hittable*) new hittable_list(list, 2);
 	// camera cam(90, float(nx)/float(ny));
 
-	hittable* world = random_scene();
+	//hittable* world = random_scene();
+	hittable* world = two_spheres();
+	
+	
 	vec3 lookfrom(13, 2, 3);
     vec3 lookat(0, 0, 0);
 	float dist_to_focus = 10.0f;
