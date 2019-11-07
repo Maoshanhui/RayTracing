@@ -9,6 +9,7 @@
           "-std=c++17",
           "-stdlib=libc++",
           "RayTracingInNextWeek.cpp",
+          "perlin.cpp",
           "-o",
           "RayTracingInNextWeek.out",
           "--debug"

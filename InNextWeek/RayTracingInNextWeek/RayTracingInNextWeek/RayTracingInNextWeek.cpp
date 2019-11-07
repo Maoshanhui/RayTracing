@@ -115,6 +115,14 @@ hittable* two_spheres() {
 	return (hittable*) new hittable_list(list, 2);
 }
 
+hittable* two_perlin_spheres() {
+	texture *pertext = new noise_texture();
+	hittable **list = new hittable*[2];
+	list[0] = new sphere(vec3(0, -1000, 0), 1000, new lambertian(pertext));
+	list[1] = new sphere(vec3(0, 2, 0), 2, new lambertian(pertext));
+	return (hittable*) new hittable_list(list, 2);
+}
+
 int main()
 {
 	ofstream outfile;
@@ -153,8 +161,8 @@ int main()
 	// camera cam(90, float(nx)/float(ny));
 
 	//hittable* world = random_scene();
-	hittable* world = two_spheres();
-	
+	//hittable* world = two_spheres();
+	hittable* world = two_perlin_spheres();
 	
 	vec3 lookfrom(13, 2, 3);
     vec3 lookat(0, 0, 0);
