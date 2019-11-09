@@ -1,10 +1,14 @@
 #include "perlin.h"
 
 static vec3* perlin_generate() {
-    float* p = new float[256];
-    for (int i = 0; i < 256; ++i)
-        p[i] = random_double();
-    return (vec3*) p;
+    vec3* p = new vec3[256];
+    for (int i = 0; i < 256; ++i) { 
+        double x_random = 2 * random_double() -1;
+        double y_random = 2 * random_double() -1;
+        double z_random = 2 * random_double() -1;
+        p[i] = unit_vector(vec3(x_random, y_random, z_random));
+    }
+    return p;
 }
 
 void permute(int *p, int n) {
@@ -26,7 +30,7 @@ static int* perlin_generate_perm() {
 }
 
 
-float *perlin::ranfloat = (float*)perlin_generate();
+vec3 *perlin::ranvec = perlin_generate();
 int *perlin::perm_x = perlin_generate_perm();
 int *perlin::perm_y = perlin_generate_perm();
 int *perlin::perm_z = perlin_generate_perm();
