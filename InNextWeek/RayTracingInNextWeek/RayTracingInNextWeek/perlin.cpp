@@ -1,10 +1,10 @@
 #include "perlin.h"
 
 static vec3* perlin_generate() {
-    float * p = new float[256];
+    float* p = new float[256];
     for (int i = 0; i < 256; ++i)
         p[i] = random_double();
-    return (vec3*)p;
+    return (vec3*) p;
 }
 
 void permute(int *p, int n) {
