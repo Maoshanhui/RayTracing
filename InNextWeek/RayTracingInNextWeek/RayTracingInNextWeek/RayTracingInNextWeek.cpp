@@ -128,8 +128,8 @@ int main()
 	ofstream outfile;
 	outfile.open("./outputImage.ppm", ios::out);
 
-	int nx = 800;
-	int ny = 400;
+	int nx = 400;
+	int ny = 200;
 	int ns = 100;
 	outfile << "P3\n" << nx << " " << ny << "\n255\n";
 	vec3 lower_left_corner(-2.0, -1.0, -1.0);
