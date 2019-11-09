@@ -13,6 +13,9 @@
 #include "material.h"
 #include "texture.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 using namespace std;
 
 float hit_sphere(const vec3& center, float radius, const ray&r) 
@@ -123,6 +126,13 @@ hittable* two_perlin_spheres() {
 	return (hittable*) new hittable_list(list, 2);
 }
 
+hittable* earth() {
+	int nx, ny, nn;
+	unsigned char *tex_data = stbi_load("earthmap.jpg", &nx, &ny, &nn, 0);
+	material *mat = new lambertian(new image_texture(tex_data, nx, ny));
+	return new sphere(vec3(0, 0, 0), 2, mat);
+}
+
 int main()
 {
 	ofstream outfile;
@@ -162,7 +172,8 @@ int main()
 
 	//hittable* world = random_scene();
 	//hittable* world = two_spheres();
-	hittable* world = two_perlin_spheres();
+	//hittable* world = two_perlin_spheres();
+	hittable* world = earth();
 	
 	vec3 lookfrom(13, 2, 3);
     vec3 lookat(0, 0, 0);
